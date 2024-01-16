@@ -34,3 +34,22 @@
     - id_client
     - booking date
     - booking status
+  
+## Используемые технологии
+- python в качестве основного языка программирования
+- javascript для скриптов в mongodb
+- fastapi для rest-api приложения
+- mongodb как основное хранилище данных
+- elasticsearch для полнотекстового поиска
+- memcached в качестве кэширования
+- docker для виртуализации
+- docker-compose для оркестрации и запуска кластера
+- nginx в качестве балансировщика нагрузки
+
+
+## Запуск кластера в docker
+Запуск:
+```
+docker compose up --build -d
+```
+
