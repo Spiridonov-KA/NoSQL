@@ -7,7 +7,6 @@ import requests
 from models.client_model import *
 from models.room_model import *
 
-# Количество сущностей
 LENGTH = 300
 
 
@@ -66,8 +65,6 @@ async def fill_reservations():
         random.seed(i + LENGTH + 456)
         print(i)
         client = clients[i]
-
-        # Данные клиента
         payload_post_client = {
             "name": client.name,
             "email": client.email
@@ -79,7 +76,6 @@ async def fill_reservations():
         print(f"{response_put_data}")
 
         room = rooms[i]
-        # Данные для комнаты
         payload_post_room = {
             "full_address": room.full_address,
             "description": room.description,
@@ -89,7 +85,6 @@ async def fill_reservations():
         response_put_room_data = response_room.json()
         room_id = response_put_room_data["room_id"]
 
-        # Данные по резервации
         payload_post_reservation = {
             "client_id": client_id,
             "room_id": room_id,
@@ -104,3 +99,4 @@ async def fill_reservations():
         print("------------------------------------------------------------------------------")
 
 asyncio.run(fill_reservations())
+

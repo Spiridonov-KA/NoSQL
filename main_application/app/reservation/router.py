@@ -117,18 +117,18 @@ async def reservation_add(reservation: UpdateReservationSchema,
     while i := 3 > 0:
         # Проверяем забранирована ли комната в указанную дату.
         # Если есть пересечение дат, то бросаем ошибку 404 и дату, на которую зарезервинована комнату
+
         if es_repository.find_intersection(reservation.room_id,
                                            reservation.start_booking_date, reservation.end_booking_date) != 0:
             raise HTTPException(status_code=404, detail=f'Room with ID : {reservation.room_id}'
                                                         f' is occupied for some of chosen days')
+
         # Получаем блокировщик
         lock = redis_lock.get_lock(reservation.room_id)
         if lock.acquire():
             # Если нет пересечения, то добавляем бронирование в mongodb и elastic
             if (reservation_id := await mongo_repository.add_reservation(reservation)) is not None:
                 await es_repository.create(reservation_id, reservation)
-
-            time.sleep(1.5)
 
             reservation.booking_status = BookStatusEnum.paid
             await mongo_repository.update_reservation(reservation_id, reservation)
@@ -138,7 +138,7 @@ async def reservation_add(reservation: UpdateReservationSchema,
             return {"reservation_id": reservation_id}
         else:
             time.sleep(0.5)
-            i -= 1  # retry counter
+            i -= 1
 
 
 @reservation_router.put(

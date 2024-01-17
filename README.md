@@ -52,4 +52,5 @@
 ```
 docker compose up --build -d
 ```
-
+## Архитектура кластера
+![alt text](images/architecture.png "Architecture")
